@@ -1,0 +1,37 @@
+Peter Kelly
+
+======= DAYTIME =======
+1 192.168.64.2 129.6.15.28 TCP [SYN]
+2 129.6.15.28 192.168.64.2 TCP [SYN, ACK]
+3 192.168.64.2 129.6.15.28 TCP [ACK]
+
+The client uses port 42918.
+
+The client needs a port so the server know where to respond to.
+
+4 129.6.15.28 192.168.64.2 DAYTIME DAYTIME Response
+
+\n60200 23-09-13 15:28:22 50 0 0 616.9 UTC(NIST) * \n  Here the 50 means that we are in daylight savings time, the first zero means no leap second will be added this month, the second means that the server is running propperly, and the 616.9 is the number of miliseconds NIST advanced the time code to account for network delays.
+
+[SYN] is a request to synchronise.
+
+[ACK] is an acknoledgment that the packet was recieved.
+
+[FIN] is a request to end the connection.
+
+The daytime server requested to end the connection. I can tell because the source of the first [FIN] packet was from the IP of the daytime server.
+
+====== HTTP ======
+
+There were two TCP connections opened because at the beginning my machine sent two [SYN] packets and then recieved two [SYN, ACK] packets from the server.
+
+ 7 192.168.64.2	45.79.89.123	HTTP	409	GET /index.html HTTP/1.1  was where the homepage was requested.
+
+11	192.168.64.2	45.79.89.123	HTTP	378	GET /jeff_square_head.jpg HTTP/1.1  was where the photo was requested.
+
+====== Questions =======
+
+Is there a way to filter out the [ACK] packets because they seem less important than many of the others?
+
+If you can open more than one TCP connection, how can you filter out the packets for just one of them?
+
