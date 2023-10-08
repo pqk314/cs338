@@ -1,0 +1,15 @@
+Peter Kelly
+
+1. In this case, Alice and Bob can agree to a secret key K with Diffie-Helman. Then Alice will send Bob AES(K,M), and Bob will then decrypt with AES_D(K,M).
+
+2. Here, Alice and Bob can agree on a secret key K with DH. Then Alice will send Bob AES(K, E(P_b, M || h(M))). Bob will decrypt with AES_D(K, E(P_b, M || h(M))) to get E(P_b, M || h(M)). Since Bob has his secret key, he can find E(S_b, E(P_b, M || h(M))) which is M||h(M). Thus Bob will get both M and h(M).
+
+3. First, Alice and Bob will agree on a secret key K with DH. Then Alice will send Bob AES(K, E(S_a, M)). Since Bob has K he can AES_D(K, E(S_a, M)) to get E(S_a, M), and everyone knows P_a so Bob can find E(P_a, E(S_a, M)). This will give Bob M, and no one could have created E(S_a,M) without S_a so Bob is sure that the message came from Alice.
+
+4. Alice could first claim that the key Bob presented was expired at the time. This is a poor excuse as it is likely Bob would have checked, but if the certificate is out of date that could be enough. Also, Alice could claim that they had already completed C, and that Bob is trying to force Alice to do the same work twice. This is a better argument as there is no way to verify if Alice has already completed what was specified in the contract. Finally, Alice could claim that it was not Bob that she signed the contract with. This is also less convincing as Bob would likely posses the key from the contract and could prove his identity, but it is not guaranteed that he could.
+
+5. Sig_CA would be E(S_CA, H("bob.com"||P_b)).
+
+6. Just the certificate is not enough for Bob to prove his identity. If he sent E(S_b, Cert_B) that would be enough to prove to Alice that Bob sent the message. (If Alice can't see P_b then Bob can send P_b || E(S_b,Cert_B))
+
+7. First, if Mal had some control over the CA then Mal could easily trick Alice by creating a fake certificate. Also, Mal could intercept Bob when he sends his public key to the CA then Mal could change Bob's key.
