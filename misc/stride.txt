@@ -1,0 +1,18 @@
+Peter Kelly
+
+The diagram can be found at misc/stride_diagram.png
+
+Threats 
+
+Spoofing:
+    Eavesdropper listens to unencrypted HTTP requests that contain users login information - solution: Credentials and authentication tokens are protected with encryption (TLS) in storage and transit 
+Tampering:
+    User uses SQL injection to change data on database server - solution: Ensure SQL code does not allow for containment on the end of any requests.
+Repudiation:
+    An eavesdropper sends a request pretending to be a logged in user's IP address - solution: User's credentials are only stored for the HTTPS session they are currently in.
+Information Disclosure:
+    Attacker sends a request to the database server at port 5432 to request privileged data - solution: Only allow requests to database server port from inside of network.
+Denial of Service:
+    An attacker has many devices send a huge number of requests to overwhelm the service - solution: Users are rate limited to only allow a reasonable number of requests per second.
+Elevation of Privilege:
+    An attacker may send out phishing emails targeting our users where they attempt to steal their credentials - solution: Require two factor authentication to login from new devices.
