@@ -1,0 +1,52 @@
+Peter Kelly
+
+Part 1:
+Total time: .38s
+Number of hashes computed: 267516
+Passwords cracked: 2734
+Time per hash computed: 1.4 x 10^-6 seconds per hash
+Time per password cracked: 1.3 x 10^-3 seconds per password
+Passwords cracked per number of hashes computed: 1.0 x 10^-2 passwords per hash
+
+Part 2
+Total time: 625.88s
+Number of hashes computed: 256000000
+Passwords cracked: 11
+Time per hash computed: 2.4 x 10^-6 seconds per hash
+Time per password cracked: 56.9 seconds per password
+Passwords cracked per number of hashes computed: 4.3 x 10^-8 passwords per hash
+
+Part 3
+Total time: 48.24s
+Number of hashes computed: 26751600 
+Passwords cracked: 100
+Time per hash computed: 1.8 x 10^-6 seconds per hash
+Time per password cracked: .48 seconds per password
+Passwords cracked per number of hashes computed: 3.7 x 10^-6 passwords per hash
+
+Part 4
+Which software did you use?
+    I used hashcat
+What commands did you issue to do your password-cracking?
+    hashcat -m 1420 -a 0 -o crackedhashcat.txt phashsalt.txt words.txt
+How many passwords did you crack?
+    100
+How long did it take?
+    around 5 seconds
+
+Analysis:
+- Did your time per hash computed change between phases? By what factor? Why?
+    Our time per hash did not change significantly. As the entire process got more complex it took slightly longer but they were all on the same magnitude.
+- Did your time per password crack change between phases? By what factor? Why?
+    Our time per password crack changed dramatically between phases. The third phase was about a thousand times slower than the first, and the second was 1 x 10^6 times slower than the first phase. This is beasuse the number of hashes calculated per password cracked changed dramatically between the phases.
+- Suppose you wanted to precompute all the hashes for each possible password
+so you could just look up the password in a table indexed by the hash. How much
+memory would be required for each phase?
+    For the first phase, you would need approximatly 2.1 x 10^7 bits of memory. For the second phase you would need about 5.7 x 10^16 bit of memory. The last phase should require 5.7 x 10^12 bit of memory. 
+- How well did hashcat or john do compared to your python program? Give details.
+    hashcat computed the same 100 passwords in around 5 seconds which was much better than the 625 seconds it took me.
+- Give 3-4 reasons we should store password hashes and not the passwords themselves.
+Think in terms of threats, who the attackers might be, etc.
+    If someone were quitting from a job where they had access to a table of passwords or password hashes, if it were just passwords they could just steal them whereas hashes they would need to break.
+    If an attacker was able to steal password hashes, if the passwords were good then they would be unable to ever find the passwords.
+    If someone is comparing accross multiple leaked password hash lists with salts, they would be unable to recognize repeated passwords.
