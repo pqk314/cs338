@@ -1,0 +1,60 @@
+Peter Kelly
+
+Execution
+
+Kali's MAC address is ce:d2:6f:60:b5:08
+
+Kali's IP address is 192.168.64.2
+
+Metasploitable's MAC address is 72:19:b8:e5:19:cf
+
+Metasploitable's IP address is 192.168.64.3
+
+Kali's routing table is 
+
+Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
+default         192.168.64.1    0.0.0.0         UG        0 0          0 eth0
+192.168.64.0    0.0.0.0         255.255.255.0   U         0 0          0 eth0
+
+Kali's ARP cache is 
+
+Address                  HWtype  HWaddress           Flags Mask            Iface
+192.168.64.1             ether   3e:a6:f6:53:7b:64   C                     eth0
+
+Metasploitable's routing table is
+
+Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
+192.168.64.0    *               255.255.255.0   U       0   0       0    eth0
+default         192.168.64.1    0.0.0.0         UG      0   0       0    eth0
+
+Metasploitable's ARP cache is
+
+Address                  HWtype  HWaddress           Flags Mask            Iface
+192.168.64.1             ether   3E:A6:F6:53:7B:64   C                     eth0
+
+Since Metasploitable can only see one MAC address, this must be the router, so MS will send the packet to 3E:A6:F6:53:7B:64
+
+I do see and HTTP response on MS but I did not capture any packets on Kali.
+
+Metasploitable's new ARP cache is 
+
+Address                  HWtype  HWaddress           Flags Mask            Iface
+192.168.64.1             ether   CE:D2:6F:60:B5:08   C                     eth0
+
+Metasploitable should send the request to the altered MAC address on the ARP cache which goes to my Kali machine.
+
+I do not see any HTTP requests on Kali, but I do see a DNS request for the IP of http://cs338.jeffondich.com/
+
+Kali sends out a lot of ARP packets that say the MAC address that corresponds to the router's IP is actually the MAC address for Kali. If the attack stops then as soon as the router tell's MS the correct MAC address then everything is back to normal.
+
+I would have my ARP attack detector flag any device that is sending a large number of ARP packets where the MAC address of the sender's IP has recently changed.
+
+Synthesis
+
+To start, Mal is on the same network as Alice. Then Mal starts sending ARP packets that has Kali's MAC address instead of the router's but has the router's IP address. This is like sending letters saying to update a phone number in the phone book. Alice assumes these letters are true and from the correct person, so she changes their phone number in the book. Then when Alice tries to send a request to the router to fetch the page, Alice sends it to Mal instead. This is like if Alice then tried to call the changed number, thinking it was her friend.  This is beacause when Alice checks her ARP cache for the correct location to send data to, Mal has changed the ARP cache to have referce Mal instead of the router.
+
+This attack is very detectable from Alice's perspective, she will recieve a huge number of ARP packets with the same IP and MAC address.
+
+This attack is undetectable from Bob's perspective because he has no prior information on Alice. Then if Mal were to send Bob a password they had intercepted, Bob would have no way to tell it wasn't Alice as Mal would have Alice's credentials.
+
+Alice and Bob could mitigate this attack by using HTTPS because when Alice requests a certificate from the server, Mal would be unable to produce it.
