@@ -34,7 +34,7 @@ Address                  HWtype  HWaddress           Flags Mask            Iface
 
 Since Metasploitable can only see one MAC address, this must be the router, so MS will send the packet to 3E:A6:F6:53:7B:64
 
-I do see and HTTP response on MS but I did not capture any packets on Kali.
+I do see an HTTP response on MS but I did not capture any packets on Kali.
 
 Metasploitable's new ARP cache is 
 
